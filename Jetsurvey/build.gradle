@@ -29,7 +29,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.diffplug.spotless' version '5.10.0'
+    id 'com.diffplug.spotless' version '5.11.1'
 }
 
 subprojects {
@@ -40,6 +40,9 @@ subprojects {
 
         if (Libs.AndroidX.Compose.version.endsWith('SNAPSHOT')) {
             maven { url Libs.AndroidX.Compose.snapshotUrl }
+        }
+        if (Libs.Accompanist.version.endsWith('SNAPSHOT')) {
+            maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         }
     }
 

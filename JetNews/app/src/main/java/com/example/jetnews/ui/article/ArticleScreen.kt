@@ -35,8 +35,8 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.ThumbUpOffAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -183,7 +183,7 @@ private fun BottomBar(
         ) {
             IconButton(onClick = onUnimplementedAction) {
                 Icon(
-                    imageVector = Icons.Filled.FavoriteBorder,
+                    imageVector = Icons.Filled.ThumbUpOffAlt,
                     contentDescription = stringResource(R.string.cd_add_to_favorites)
                 )
             }
@@ -267,9 +267,7 @@ fun PreviewArticleDark() {
 
 @Composable
 private fun loadFakePost(postId: String): Post {
-    val context = LocalContext.current
-    val post = runBlocking {
-        (BlockingFakePostsRepository(context).getPost(postId) as Result.Success).data
+    return runBlocking {
+        (BlockingFakePostsRepository().getPost(postId) as Result.Success).data
     }
-    return post
 }

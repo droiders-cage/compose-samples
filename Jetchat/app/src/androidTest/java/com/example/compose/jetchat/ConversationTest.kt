@@ -35,8 +35,8 @@ import com.example.compose.jetchat.conversation.ConversationUiState
 import com.example.compose.jetchat.conversation.LocalBackPressedDispatcher
 import com.example.compose.jetchat.data.exampleUiState
 import com.example.compose.jetchat.theme.JetchatTheme
-import dev.chrisbanes.accompanist.insets.LocalWindowInsets
-import dev.chrisbanes.accompanist.insets.WindowInsets
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.WindowInsets
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
@@ -116,7 +116,10 @@ class ConversationTest {
     @Test
     fun jumpToBottom_snapsToBottomAfterUserInteracted() {
         // First swipe
-        composeTestRule.onNodeWithTag(ConversationTestTag).performGesture {
+        composeTestRule.onNodeWithTag(
+            testTag = ConversationTestTag,
+            useUnmergedTree = true // https://issuetracker.google.com/issues/184825850
+        ).performGesture {
             this.swipe(
                 start = this.center,
                 end = Offset(this.center.x, this.center.y + 500),
@@ -160,7 +163,8 @@ class ConversationTest {
     private fun openEmojiSelector() =
         composeTestRule
             .onNodeWithContentDescription(
-                composeTestRule.activity.getString(R.string.emoji_selector_bt_desc)
+                label = composeTestRule.activity.getString(R.string.emoji_selector_bt_desc),
+                useUnmergedTree = true // https://issuetracker.google.com/issues/184825850
             )
             .performClick()
 }

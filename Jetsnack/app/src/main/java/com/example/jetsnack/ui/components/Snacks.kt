@@ -16,6 +16,7 @@
 
 package com.example.jetsnack.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,12 +52,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.jetsnack.R
 import com.example.jetsnack.model.CollectionType
 import com.example.jetsnack.model.Snack
 import com.example.jetsnack.model.SnackCollection
 import com.example.jetsnack.model.snacks
 import com.example.jetsnack.ui.theme.JetsnackTheme
-import dev.chrisbanes.accompanist.coil.CoilImage
+import com.google.accompanist.coil.rememberCoilPainter
 
 private val HighlightCardWidth = 170.dp
 private val HighlightCardPadding = 16.dp
@@ -120,18 +122,18 @@ private fun HighlightedSnacks(
     modifier: Modifier = Modifier
 ) {
     val scroll = rememberScrollState(0)
-    val gradient = when (index % 2) {
+    val gradient = when ((index / 2) % 2) {
         0 -> JetsnackTheme.colors.gradient6_1
         else -> JetsnackTheme.colors.gradient6_2
     }
     // The Cards show a gradient which spans 3 cards and scrolls with parallax.
     val gradientWidth = with(LocalDensity.current) {
-        (3 * (HighlightCardWidth + HighlightCardPadding).toPx())
+        (6 * (HighlightCardWidth + HighlightCardPadding).toPx())
     }
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp)
+        contentPadding = PaddingValues(start = 24.dp, end = 24.dp)
     ) {
         itemsIndexed(snacks) { index, snack ->
             HighlightSnackItem(
@@ -278,11 +280,14 @@ fun SnackImage(
         shape = CircleShape,
         modifier = modifier
     ) {
-        CoilImage(
-            data = imageUrl,
+        Image(
+            painter = rememberCoilPainter(
+                request = imageUrl,
+                previewPlaceholder = R.drawable.placeholder,
+            ),
             contentDescription = contentDescription,
+            modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
         )
     }
 }
